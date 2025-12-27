@@ -1,13 +1,20 @@
+import { RedirectToSignIn } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Agent from "@/components/ui/Agent";
 
-const page = () => {
+const InterviewPage = async () => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return <RedirectToSignIn />;
+  }
+
   return (
     <>
-      <h3>Interview Genration</h3>
-
-      <Agent userName="You" userId="user1" type="generate" />
+      <h3>Interview Generation</h3>
+      <Agent userName="You" userId={userId} type="generate" />
     </>
   );
 };
 
-export default page;
+export default InterviewPage;
